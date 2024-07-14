@@ -12,3 +12,6 @@ pip install -r requirements.txt
 python main.py
 ```
 
+### testing
+ - visit `http://127.0.0.1:8000/api/chat/your_client_id` in your browser
+ - or connect to the websocket at `ws://127.0.0.1:8000/api/ws/your_client_id`
