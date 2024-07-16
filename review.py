@@ -143,12 +143,12 @@ def count_occurrences(lst):
         if isinstance(item,dict):
             item = json.dumps(item)
 
-            if item in counts:
+        if item in counts:
 
-                counts[item] += 1
+            counts[item] += 1
 
-            else:
+        else:
 
-                counts[item] = 1
+            counts[item] = 1
 
     return counts
