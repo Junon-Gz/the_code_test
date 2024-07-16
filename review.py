@@ -1,6 +1,19 @@
 # Review 1
 
-def add_to_list(value, my_list=[]):
+def add_to_list(value, my_list=None):
+
+    '''
+    problem:
+    If add_to_list is called multiple times without providing the my_list argument, 
+    the same list will be used each time, which is likely not the intended behavior.
+    solution:
+    Create a new list when my_list is None 
+    instead of using a default mutable argument.
+    '''
+
+    if my_list is None:
+
+        my_list = []
 
     my_list.append(value)
 
@@ -12,7 +25,16 @@ def add_to_list(value, my_list=[]):
 
 def format_greeting(name, age):
 
-    return "Hello, my name is {name} and I am {age} years old."
+    '''
+    problem:
+    The function returns a greeting message with the name and age parameters
+    but the string is not formatted correctly.
+    solution:
+    use f-string or format function to format the string
+    '''
+
+    return f"Hello, my name is {name} and I am {age} years old."
+    # return "Hello, my name is {} and I am {} years old.".format(name, age)
 
 
 
@@ -22,11 +44,18 @@ class Counter:
 
     count = 0
 
+    '''
+    problem:
+    The  __init__ method increases the count attribute of the instance, not 
+    the class.Therefore, the class variable count remains unchanged.
+    solution:
+    Use type(self).count to access the class variable count.
+    '''
 
 
     def __init__(self):
 
-        self.count += 1
+        type(self).count += 1
 
 
 
@@ -40,19 +69,29 @@ class Counter:
 
 import threading
 
-
+'''
+problem:
+1.The increment method in the SafeCounter class is not thread-safe, 
+meaning multiple threads might concurrently modify the count attribute,
+leading to race conditions.
+solution:
+Use a threading lock to ensure that only one thread can increment 
+the counter at a time.
+'''
 
 class SafeCounter:
 
     def __init__(self):
 
         self.count = 0
+        self.lock = threading.Lock()
 
 
 
     def increment(self):
 
-        self.count += 1
+        with self.lock: 
+            self.count += 1
 
 
 
@@ -85,19 +124,31 @@ for t in threads:
 
 
 # Review 5
-
+'''
+problem:
+1.The =+ operator is interpreted as an assignment (=) followed by a unary plus (+), 
+which may get unexpect count result.
+2.if item in counts: if item is a dictionary, it will raise an error.
+soulution:
+1. Use += operator to increment the value of the count.
+2. Use json.dumps to convert the item to a string if item is a dictionary before 
+checking if it is in the dictionary.
+'''
 def count_occurrences(lst):
-
+    import json
     counts = {}
 
     for item in lst:
 
-        if item in counts:
+        if isinstance(item,dict):
+            item = json.dumps(item)
 
-            counts[item] =+ 1
+            if item in counts:
 
-        else:
+                counts[item] += 1
 
-            counts[item] = 1
+            else:
+
+                counts[item] = 1
 
     return counts
